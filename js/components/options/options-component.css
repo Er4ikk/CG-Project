@@ -1,0 +1,12 @@
+
+  .options-panel {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+  }
+
+  .options-label{
+    font-family: 'Monocoque';
+    font-size: xx-large;
+    color: white;
+  }

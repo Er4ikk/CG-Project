@@ -1,0 +1,56 @@
+# Blender MTL File: 'race track.blend'
+# Material Count: 5
+
+newmtl Concrete
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/giulio/Scaricati/uploads_files_3515507_Race+Track/Textures/concrete.jpg
+
+newmtl Ramp
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/giulio/Scaricati/uploads_files_3515507_Race+Track/Textures/ramp.jpg
+
+newmtl Sand
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.778243 0.297015 0.074065
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Start.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/giulio/Scaricati/uploads_files_3515507_Race+Track/Textures/Start.jpeg
+
+newmtl Track
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/giulio/Scaricati/uploads_files_3515507_Race+Track/Textures/asphalt.jpg

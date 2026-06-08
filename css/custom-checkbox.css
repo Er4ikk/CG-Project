@@ -1,0 +1,57 @@
+ /* https://dev.to/adbutterfield/custom-styling-checkboxes-the-modern-way-3o42 */
+ 
+ 
+ /* base colors for checkbox states */
+ :root {
+  --checkbox-border-color: #ffffff;
+  --checkbox-checked-color: orange;
+  --checkbox-hover-color: #f5a255;
+  --checkbox-disabled-bg-color: #d9d9d9;
+}
+
+/* styling the checked event */
+  input[type="checkbox"]:checked {
+  background-size: cover;
+  padding: 2px;
+}
+
+/* styling the check mark inside the checkbox */
+input[type="checkbox"]:not(:disabled):checked {
+  border-color: var(--checkbox-checked-color);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 32 32" xml:space="preserve"><path style="fill: %23f5a255" d="M11.941,28.877l-11.941-11.942l5.695-5.696l6.246,6.246l14.364-14.364L32,8.818"/></svg>');
+}
+
+/* styling the exterior of disabled checkbox */
+input[type="checkbox"]:disabled {
+  background-color: var(--checkbox-disabled-bg-color);
+}
+
+/* styling the check mark of disabled checkbox */
+input[type="checkbox"]:disabled:checked {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 32 32" xml:space="preserve"><path style="fill: %23f5a255" d="M11.941,28.877l-11.941-11.942l5.695-5.696l6.246,6.246l14.364-14.364L32,8.818"/></svg>');
+}
+
+
+/* styling the "hiover effect" */
+@media (hover: hover) {
+  input[type="checkbox"]:not(:disabled):hover {
+    background-color: var(--checkbox-hover-color);
+    outline: 6px solid var(--checkbox-hover-color);
+    transform: scale(1.05);
+  }
+}
+
+
+/* styling the default checkbox. THIS WILL BE APPLIED TO EVERY CHECKBOX */
+  input[type="checkbox"] {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: 6px;
+  padding: 0;
+  border: 2px solid var(--checkbox-border-color);
+  appearance: none;
+  background-color: transparent;
+  outline: none;
+  transition: outline 0.1s;
+}

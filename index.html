@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- vertex shader -->
+    <script
+      id="3d-vertex-shader"
+      type="x-shader/x-vertex"
+      src="glsl/3d-vertex-shader.glsl"
+    ></script>
+
+    <!-- fragment shader -->
+    <script
+      id="3d-fragment-shader"
+      type="x-shader/x-fragment"
+      src="glsl/3d-fragment-shader.glsl"
+    ></script>
+
+    <!-- vertex shader -->
+    <script
+      id="color-vertex-shader"
+      type="x-shader/x-vertex"
+      src="glsl/color-vertex-shader.glsl"
+    ></script>
+
+    <!-- fragment shader -->
+    <script
+      id="color-fragment-shader"
+      type="x-shader/x-fragment"
+      src="glsl/color-fragment-shader.glsl"
+    ></script>
+
+    <!-- JS SCRIPTS -->
+    <script src="resources/webgl-utils.js"></script>
+    <script src="resources/m4.js"></script>
+    <script src="resources/glm_utils.js"></script>
+    <script src="resources/mesh_utils.js"></script>
+    <script type="text/javascript" src="resources/dat.gui.js"></script>
+
+    <!-- JS MODULES -->
+    <script type="module" src="js/entities/GameObject.js"></script>
+    <script type="module" src="js/entities/Cube.js"></script>
+    <script type="module" src="js/entities/Sphere.js"></script>
+    <script type="module" src="js/entities/Plane.js"></script>
+    <script type="module" src="js/entities/SkyBox.js"></script>
+    
+    <script type="module" src="js/entities/Track.js"></script>
+    <script type="module" src="js/entities/Car.js"></script>
+    <script type="module" src="js/entities/LanciaDelta.js"></script>
+    
+
+    <script type="module" src="resources/textures/textures.js"></script>
+
+
+    <script type="module" src="js/scenes/first-scene.js"></script>
+
+   
+    <script
+      type="module"
+      src="js/components/header/header-component.js"
+    ></script>
+    <script
+      type="module"
+      src="js/components/options/options-component.js"
+    ></script>
+    <script
+      type="module"
+      src="js/components/game-window/game-window-component.js"
+    ></script>
+    <title>Computer Graphics Project</title>
+  </head>
+
+  <body>
+    <header-component></header-component>
+    <game-window-component></game-window-component>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+@font-face {
+    font-family:'Byonix';
+    src: url("../resources/fonts/ByonixRacing.otf") format("opentype");
+}
+
+@font-face {
+    font-family:'Monocoque';
+    src: url("../resources/fonts/MONOCOQUE.ttf") format("truetype");
+}

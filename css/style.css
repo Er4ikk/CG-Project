@@ -1,0 +1,26 @@
+  
+@import url("fonts.css"); 
+@import url("custom-checkbox.css");
+  
+  .game-btn{
+    height: 75px;
+    font-size: large;
+    width: 200px;
+    transition: background-color 0.5s;
+    border-radius: 10px;
+    font-family: 'Monocoque';
+    border: 0px;
+    background-color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .game-btn:hover{
+    background-color: orange;
+    color: white;
+  }
+
+
+  .hidden{
+display:none !important
+}

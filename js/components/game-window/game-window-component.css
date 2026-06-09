@@ -1,27 +1,88 @@
+
+/* DESKTOP MODE */
+:root {
+    --canvas-display: block;
+    --canvas-position: fixed;
+    --canvas-width: 1050px;
+    --canvas-height: 60vh;
+    --container-height: 300px;
+    --header-margin-bottom: 300px;
+    --button-grid-margin-bottom: 100px;
+    --left-position: 20%;
+    --button-grid-width: 90vh;
+    --button-flex-direction: row;
+    --canvas-container-flex-direction: row;
+    --title-font-size: 50px
+}
+
+/* MOBILE SCREEN IN PORTRAIT MODE */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/orientation */
+@media only screen and (max-width: 600px) and (orientation: portrait)  {
+    :root {
+        --canvas-display: flex;
+        --canvas-position: relative;
+        --canvas-height: 60vh;
+        --canvas-width: 80vw;
+        --container-height: auto;
+        --left-position: 10%;
+        --header-margin-bottom: 10px; 
+        --button-grid-width: 50%;
+        --button-grid-margin-bottom: 10px;
+        --button-flex-direction: column; 
+        --canvas-container-flex-direction: column;
+        --title-font-size: 25px
+    }
+}
+
+
+/* MOBILE IN LANDSCAPE MODE */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/orientation */
+@media only screen and (max-width: 900px) and  (orientation: landscape) {
+    :root {
+        --canvas-display: flex;
+        --canvas-position: relative;
+        --canvas-height: 60vh;
+        --canvas-width: 100vw;
+        --container-height: auto;
+        --left-position: 0%;
+        --header-margin-bottom: 10px; 
+        --button-grid-width: 90%;
+        --button-grid-margin-bottom: 10px;
+        --canvas-container-flex-direction: column;
+        --button-flex-direction: row; 
+        --title-font-size: 25px
+    }
+}
+
+
+
 .game-container {
     display: flex;
-    height: 300;
+    height: var(--canvas-height);
     width: auto;
     justify-content: center;
   }
   .canvas-container {
-    display: grid;
+    display: var(--canvas-display);
+    position: var(--canvas-position);
+    left: var(--left-position);
+    flex-direction: var(--canvas-container-flex-direction);
     align-content: end;
     justify-content: center;
-    z-index: 2;
-    height: 700px;
-    width: 1050px;
+    z-index: 999;
+    height: var(--canvas-height);
+    width: var(--canvas-width);
   }
 
   .wallpaper {
     position: fixed;
-    left: auto;
-    right: auto;
-    z-index: 1;
+    left: var(--left-position);
+    /* right: auto; */
+    z-index: -1;
     display: block;
     background-image: url("../../../resources/images/wallpaper.jpg");
-    height: 700px;
-    width: 1050px;
+    height: var(--canvas-height);
+    width: var(--canvas-width);
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
     -o-filter: blur(5px);
@@ -30,27 +91,27 @@
   }
 
   .game {
-    height: 700px;
-    width: 1050px;
+    height: var(--canvas-height);
+    width: var(--canvas-width);
   }
 
   .canvas-container-header{
     display: flex;
     justify-content: center;
-    margin-bottom: 300px;
+    margin-bottom: var(--header-margin-bottom);
   }
 
   .game-title{
     color: orange;
     font-family: 'Byonix';
-    font-size: 50px;
+    font-size: var(--title-font-size);
     text-shadow: 1px 1px 2px black;
   }
 
   .button-grid{
-    margin-bottom: 100px;
-    width: 1050px;
+    margin-bottom: var(--button-grid-margin-bottom);
+    width: var(--button-grid-width);
     display: flex;
-    flex-direction: row;
+    flex-direction: var(--button-flex-direction);
     justify-content: center;
   }

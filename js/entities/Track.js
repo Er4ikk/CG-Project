@@ -4,7 +4,7 @@ import { TEXTURES } from "../../resources/textures/textures.js";
 
 export class Track extends GameObject {
 
-    meshPath = "../../resources/models/track1/race_track.obj"
+    meshPath = "../../resources/models/track1/race_track2.obj"
     objectMesh = {}
     faceGroups = {}
     objectTransformsArray = {}
@@ -20,11 +20,12 @@ export class Track extends GameObject {
     };
 
     materialTextureMap = {
-        'default':  'default' ,  // gray
+        'default':  'Start' ,  // gray
         'Track': 'Track',  // gray
-        'Start.001': 'Start.001',  // gray
+        'Start': 'Start',  // gray
         'Sand': 'Sand',  // black
-        'Concrete': 'Concrete',  // gray metallic
+        'Cement_3' : 'Concrete',
+        'Cement_2': 'Concrete',  // gray metallic
         'Ramp': 'Ramp',
        
     };
@@ -32,7 +33,7 @@ export class Track extends GameObject {
     materialColors = {
         'default': [0.5, 1, 1, 1],
         'Track': [0.5, 0.5, 0.5, 1],
-        'Start.001': [0.5, 0, 0, 1],
+        'Start': [0.5, 0, 0, 1],
         'Sand': [0.1, 0.1, 0.1, 1],  // black
         'Concrete': [0.7, 0.7, 0.7, 1],  // gray 
         'Ramp': [0.95, 0.95, 0.95, 1],  // white
@@ -40,7 +41,7 @@ export class Track extends GameObject {
 
     textures = {
         'Track': TEXTURES.loadTexture(this.gl, '../../resources/textures/track1/asphalt.jpg', this.gl.CLAMP_TO_EDGE),
-        'Start.001': TEXTURES.loadTexture(this.gl, '../../resources/textures/track1/Start.jpeg', this.gl.CLAMP_TO_EDGE),
+        'Start': TEXTURES.loadTexture(this.gl, '../../resources/textures/track1/Start.jpeg', this.gl.CLAMP_TO_EDGE),
         'Sand': TEXTURES.loadTexture(this.gl, '../../resources/textures/track1/sand.jpg', this.gl.CLAMP_TO_EDGE),
         'Concrete': TEXTURES.loadTexture(this.gl, '../../resources/textures/track1/concrete.jpg', this.gl.CLAMP_TO_EDGE),
         'Ramp': TEXTURES.loadTexture(this.gl, '../../resources/textures/track1/ramp.jpg', this.gl.CLAMP_TO_EDGE),
@@ -55,7 +56,7 @@ export class Track extends GameObject {
 
     async init() {
         await this.loadMesh()
-        console.log(this.objectMesh)
+        // console.log(this.objectMesh)
         this.faceGroups = this.groupFacesByMaterial(this.validFaces);
         this.generateTrackBuffer()
         this.setScale(200, 200, 200)
@@ -66,7 +67,7 @@ export class Track extends GameObject {
         for (const matIndex in this.faceGroups) {
             const faces = this.faceGroups[matIndex];
             const carBufferInfo = webglUtils.createBufferInfoFromArrays(this.gl, {
-                position: { numComponents: 4, data: this.convertVerticesFromGlmFormat(faces, this.objectMesh.mesh.vert) },
+                position: { numComponents: 4, data: this.convertVerticesFromGlmFormat(faces ,this.objectMesh.mesh.vert) },
                 normal: { numComponents: 3, data: this.convertNormalsFromGlmFormat(faces, this.objectMesh.mesh.normal) },
                 texcoord: { numComponents: 2, data: this.convertTexcoordsFromGlmFormat(faces, this.objectMesh.mesh.textCoords) },
             });

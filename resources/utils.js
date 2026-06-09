@@ -2,9 +2,8 @@ class Utils {
     graphicLibrary = {}
     canvas = {}
 
-    textureProgramInfo = {}
-    colorProgramInfo = {}
-
+    isMobile = false;
+    isLandscape = false;
     programInfo = {}
     constructor() {
         if (!!Utils.instance) {
@@ -12,8 +11,23 @@ class Utils {
         }
 
         Utils.instance = this;
+        window.addEventListener('is-mobile', () =>{
+            this.isMobile = true
+        })
+
+        window.addEventListener('not-is-mobile', () => {
+            this.isMobile = false
+            
+        })
+
+        window.addEventListener('is-portrait', () => {
+            this.isLandscape = false;
+        })
 
 
+        window.addEventListener('not-is-portrait', () => {
+            this.isLandscape = true;
+        })
         return this;
     }
 

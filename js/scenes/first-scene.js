@@ -9,11 +9,21 @@ import { SkyBox } from "../entities/SkyBox.js";
 import { Track } from "../entities/Track.js";
 
 var isPressingLeftMouseButton = false;
+var isInDebugMode = false;
 
 //GAME-OBJECTS
-var cube   = {}
-var car    = {};
-var track  = {}
+var cube  = {}
+var cube2 = {}
+var cube3 = {}
+var cube4 = {}
+var cube5 = {}
+var cube6 = {}
+var cube7 = {}
+
+var objectList = [];
+
+var car   = {};
+var track = {}
 
 //SKYBOX
 var skyBox = {};
@@ -35,14 +45,14 @@ var settings = new function () {
   this.cameraX = 15;
   this.cameraY = 4;
   this.cameraZ = 0;
-  this.posX = 2.5;
-  this.posY = 20;
+  this.posX = 10;
+  this.posY = 12;
   this.posZ = 4.3;
   this.targetX = 2.5;
   this.targetY = 1;
   this.targetZ = 3.5;
-  this.projWidth = 200;
-  this.projHeight = 200;
+  this.projWidth = 100;
+  this.projHeight = 100;
   this.fieldOfView = 178;
   this.bias = -0.006;
   this.perspective = false;
@@ -133,12 +143,58 @@ function initDatGui() {
   gui.add(settings, 'targetX', -10, 10);
   gui.add(settings, 'targetY', 0, 20);
   gui.add(settings, 'targetZ', -10, 20);
-  gui.add(settings, 'projWidth', 0, 100);
-  gui.add(settings, 'projHeight', 0, 100);
+  gui.add(settings, 'projWidth', 0, 150);
+  gui.add(settings, 'projHeight', 0, 150);
   gui.add(settings, 'fieldOfView', 1, 179);
   gui.add(settings, 'bias', -0.2, 0.0).step(0.025);
   gui.add(settings, 'perspective');
 
+
+}
+
+function createDepthFrameBuffer() {
+  depthFramebuffer = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, depthFramebuffer);
+  gl.framebufferTexture2D(
+    gl.FRAMEBUFFER,       // target
+    gl.DEPTH_ATTACHMENT,  // attachment point
+    gl.TEXTURE_2D,        // texture target
+    TEXTURES.DEPTH_TEXTURE,         // texture
+    0);                   // mip level
+
+}
+
+function initGate(x , y , z , scale , color , colorMult ,texture ){
+  var beginCube = new Cube() 
+  beginCube.setTransforms(x, y, z)
+  beginCube.setScale(scale,scale,scale)
+  beginCube.uniforms.u_color = color
+  beginCube.uniforms.u_colorMult = colorMult
+  beginCube.uniforms.u_texture = texture
+  
+  objectList.push(beginCube)
+
+  var newZ = z 
+  for(let i = 0; i < 4; i++){
+    var cube = new Cube()
+    cube.setTransforms(x, y + (2 * scale), newZ)
+    cube.setScale(scale,scale,scale)
+    cube.uniforms.u_color = color
+    cube.uniforms.u_colorMult = colorMult
+    cube.uniforms.u_texture = texture
+
+    newZ-=(scale * 2);
+    objectList.push(cube)
+  }
+
+  var endCube = new Cube()
+  endCube.setTransforms(x, y, newZ + (scale * 2))
+  endCube.setScale(scale,scale,scale)
+  endCube.uniforms.u_color = color
+  endCube.uniforms.u_colorMult = colorMult
+  endCube.uniforms.u_texture = texture
+  objectList.push(endCube)
+  
 
 }
 
@@ -155,7 +211,9 @@ async function main() {
   canvas.width = 600;
   canvas.height = 600;
   utils.setContext(canvas, gl)
-  initDatGui();
+
+  if (isInDebugMode)
+    initDatGui();
 
 
 
@@ -170,11 +228,10 @@ async function main() {
   colorProgramInfo = await webglUtils.createProgramInfo(gl, ['glsl/color-vertex-shader.glsl', 'glsl/color-fragment-shader.glsl']);
   skyboxProgramInfo = await webglUtils.createProgramInfo(gl, ['glsl/skybox-vertex-shader.glsl', 'glsl/skybox-fragment-shader.glsl'])
 
-  
 
 
-  // debugger
-  cube = new Cube()
+
+
   car = new LanciaDelta();
   skyBox = new SkyBox();
   track = new Track();
@@ -182,13 +239,14 @@ async function main() {
 
 
   await track.init();
-  
+
 
   await car.init()
+  car.setTransforms(269, 1.5, -195)
 
-  cube.setTransforms(3, 5, 1)
-  cube.uniforms.u_colorMult = [1, 1, 1, 1]
-  cube.uniforms.u_texture = await TEXTURES.loadTexture(gl, '../../resources/textures/author/fototessera.jpg', gl.CLAMP_TO_EDGE)
+  var texture = await TEXTURES.loadTexture(gl, '../../resources/textures/author/fototessera.jpg', gl.CLAMP_TO_EDGE)
+
+  initGate(242, 5.5, -168, 10, [1,1,1,1], [0.95, 0.95, 0.95, 1], texture)
 
   setMouseEvents()
   setEventListeners()
@@ -196,18 +254,7 @@ async function main() {
   skyBox.skyboxTexture = await TEXTURES.loadCubMapTexture(gl, '../../resources/textures/skybox/skybox.png')
 
 
-  depthFramebuffer = gl.createFramebuffer();
-  gl.bindFramebuffer(gl.FRAMEBUFFER, depthFramebuffer);
-  gl.framebufferTexture2D(
-    gl.FRAMEBUFFER,       // target
-    gl.DEPTH_ATTACHMENT,  // attachment point
-    gl.TEXTURE_2D,        // texture target
-    TEXTURES.DEPTH_TEXTURE,         // texture
-    0);                   // mip level
-
-  // ObjectUniforms.
-
-
+  createDepthFrameBuffer()
   render();
   setInterval(render, 10);
 }
@@ -226,6 +273,7 @@ function drawScene(
 
   gl.useProgram(programInfo.program);
 
+
   // set uniforms that are the same for both the sphere and plane
   // note: any values with no corresponding uniform in the shader
   // are ignored.
@@ -243,9 +291,10 @@ function drawScene(
     u_viewWorldPosition: cameraMatrix.slice(12, 15),
   });
 
-  drawCar(programInfo, track.trackBuffer, track.Transform)
-  drawObject(programInfo, cube.bufferInfo, cube.uniforms)
-  drawCar(programInfo, car.carBuffers, car.Transform)
+  drawComplexObject(programInfo, track.trackBuffer, track.Transform)
+  drawComplexObject(programInfo, car.carBuffers, car.Transform)
+
+  objectList.forEach(object => drawObject(programInfo, object.bufferInfo, object))
 
 
 
@@ -255,18 +304,23 @@ function drawScene(
 
 
 
-function drawObject(programInfo, ObjectBufferInfo, ObjectUniforms) {
+function drawObject(programInfo, ObjectBufferInfo, object) {
   // Setup all the needed attributes.
   webglUtils.setBuffersAndAttributes(gl, programInfo, ObjectBufferInfo);
 
-  // Set the uniforms unique to the cube
-  webglUtils.setUniforms(programInfo, ObjectUniforms);
+  // IMPORTANT: the transforms must be used outside the uniforms attribute otherwise they won't update
+  webglUtils.setUniforms(programInfo, {
+      u_world: object.Transform,
+      u_color: object.uniforms.u_color,
+      u_colorMult: object.uniforms.u_colorMult,
+      u_texture: object.uniforms.u_texture,  
+    });
 
   // calls gl.drawArrays or gl.drawElements
   webglUtils.drawBufferInfo(gl, ObjectBufferInfo);
 }
 
-function drawCar(programInfo, carBuffers, carTransforms) {
+function drawComplexObject(programInfo, carBuffers, carTransforms) {
   //  if (programInfo === textureProgramInfo) {
   carBuffers.forEach(({ carBufferInfo, texture, color }) => {
     // debugger
@@ -309,7 +363,7 @@ function drawSkybox(skyboxProgramInfo, skyboxBufferInfo, cameraProjectionMatrix,
   }
 
   //setting the uniforms
-  webglUtils.setUniforms(skyboxProgramInfo,skyBox.skyboxUniforms)
+  webglUtils.setUniforms(skyboxProgramInfo, skyBox.skyboxUniforms)
 
   // important otherwise the skybox wouldn't render
   gl.depthFunc(gl.LEQUAL);
@@ -320,16 +374,40 @@ function drawSkybox(skyboxProgramInfo, skyboxBufferInfo, cameraProjectionMatrix,
 
 function render() {
 
+  var carTransforms = null
+
+
+  const facingInrads = utils.degToRad(car.facing)
+  const rearDistance = 15
+  const heightCamera = 5;
+  const offsetX = Math.sin(facingInrads) * rearDistance
+  const offsetZ = Math.cos(facingInrads) * rearDistance
+
   webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+
+
+
+  if (car instanceof LanciaDelta) {
+    carTransforms = car.getTransformsAsArray()
+  }
+
+  if (isInDebugMode) {
+    console.log("Car Position " +
+      "x: " + carTransforms[0] +
+      "y: " + carTransforms[1] +
+      "z: " + carTransforms[2]
+    )
+  }
+
 
   gl.enable(gl.CULL_FACE);
   gl.enable(gl.DEPTH_TEST);
 
   // first draw from the POV of the light
   const lightWorldMatrix = m4.lookAt(
-    [settings.posX, settings.posY, settings.posZ],          // position
-    [settings.targetX, settings.targetY, settings.targetZ], // target
-    [0, 5, 0],                                              // up
+    [settings.posX + carTransforms[0], settings.posY + carTransforms[1], settings.posZ + carTransforms[2]],          // position
+    carTransforms, // target
+    [0, 1, 0],                                              // up
   );
   const lightProjectionMatrix = settings.perspective
     ? m4.perspective(
@@ -338,10 +416,10 @@ function render() {
       0.5,  // near
       100)   // far
     : m4.orthographic(
-      -settings.projWidth ,   // left
-      settings.projWidth ,   // right
-      -settings.projHeight ,  // bottom
-      settings.projHeight ,  // top
+      -settings.projWidth,   // left
+      settings.projWidth,   // right
+      -settings.projHeight,  // bottom
+      settings.projHeight,  // top
       0.5,                      // near
       100);                      // far
 
@@ -386,18 +464,23 @@ function render() {
     m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
 
- 
+
 
   // Compute the camera's matrix using look at.
 
-  var carTransforms = null
-  if (car instanceof LanciaDelta) {
-    carTransforms = car.getTransformsAsArray()
+
+  var cameraPosition = [carTransforms[0] - offsetX, carTransforms[1] + heightCamera, carTransforms[2] - offsetZ];
+
+  if (isInDebugMode) {
+    cameraPosition[0] += settings.cameraX
+    cameraPosition[1] += settings.cameraY
+    cameraPosition[2] += settings.cameraZ
   }
 
-  const cameraPosition = [settings.cameraX + carTransforms[0], settings.cameraY + carTransforms[1], settings.cameraZ + carTransforms[2]];
+
+
   const target = carTransforms;
-  const up = [0, 1, 0];
+  const up = [0, 5, 0];
   const cameraMatrix = m4.lookAt(cameraPosition, target, up);
   // gl.disable(gl.CULL_FACE);
   drawScene(

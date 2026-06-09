@@ -7,7 +7,6 @@ export class Sphere extends GameObject {
         u_colorMult: [1, 0.5, 0.5, 1],  // pink
         u_color: [0, 0, 1, 1],
         u_texture: TEXTURES.WHITE_TEXTURE,
-        u_world: this.Transform,
     };
 
     bufferInfo = {

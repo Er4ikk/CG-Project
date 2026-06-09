@@ -4,7 +4,7 @@
   varying vec2 v_texcoord;
   varying vec4 v_projectedTexcoord;
   varying vec3 v_normal;
-  varying vec3 v_surfaceToLight;
+//   varying vec3 v_surfaceToLight;
   varying vec3 v_surfaceToView;
   
   uniform vec4 u_colorMult;
@@ -36,7 +36,7 @@
     //global light
     float light =  max(dot(normal, surfaceToLightDirection),0.0);
     float specularIntensity = 0.05;
-    float specular =  pow(max(dot(normal, halfVector), u_shininess), 0.0) * specularIntensity ;
+    float specular =  pow(max(dot(normal, halfVector), 0.0), u_shininess) * specularIntensity ;
 
   
     vec3 projectedTexcoord = v_projectedTexcoord.xyz / v_projectedTexcoord.w;

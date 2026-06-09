@@ -8,7 +8,6 @@ export class Cube extends GameObject {
         u_colorMult: [0.5, 1, 0.5, 1],  // lightgreen
         u_color: [0, 0, 1, 1],
         u_texture: TEXTURES.CHECKERBOARD_TEXTURE,
-        u_world: this.Transform,
     };
 
     bufferInfo = {}

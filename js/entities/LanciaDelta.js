@@ -191,13 +191,13 @@ export class LanciaDelta extends Car {
          // angle
         // this.sumTransforms(this.velocity[this.x], this.velocity[this.y], this.velocity[this.z])
         // this.Transform = m4.yRotate(this.Transform,utils.degToRad(this.facing))
-        this.updateMatrix(this.velocity[this.x], this.velocity[this.y], this.velocity[this.z])
+        this.updatePosition(this.velocity[this.x], this.velocity[this.y], this.velocity[this.z])
 
        
     }
 
     // reset the matrix
-    updateMatrix(x,y,z){
+    updatePosition(x,y,z){
         const oldTranforms = this.Transform
         let matrix = m4.translation(oldTranforms[this.X] + x, oldTranforms[this.Y] + y, oldTranforms[this.Z] + z);
         matrix = m4.yRotate(matrix, utils.degToRad(this.facing))

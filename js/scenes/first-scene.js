@@ -9,10 +9,10 @@ import { SkyBox } from "../entities/SkyBox.js";
 import { Track } from "../entities/Track.js";
 
 var isPressingLeftMouseButton = false;
-var isInDebugMode = false;
+
 
 //GAME-OBJECTS
-var cube  = {}
+var cube = {}
 var cube2 = {}
 var cube3 = {}
 var cube4 = {}
@@ -22,7 +22,7 @@ var cube7 = {}
 
 var objectList = [];
 
-var car   = {};
+var car = {};
 var track = {}
 
 //SKYBOX
@@ -166,37 +166,37 @@ function createDepthFrameBuffer() {
 
 }
 
-function initGate(x , y , z , scale , color , colorMult ,texture ){
-  var beginCube = new Cube() 
+function initGate(x, y, z, scale, color, colorMult, texture) {
+  var beginCube = new Cube()
   beginCube.setTransforms(x, y, z)
-  beginCube.setScale(scale,scale,scale)
+  beginCube.setScale(scale, scale, scale)
   beginCube.uniforms.u_color = color
   beginCube.uniforms.u_colorMult = colorMult
   beginCube.uniforms.u_texture = texture
-  
+
   objectList.push(beginCube)
 
-  var newZ = z 
-  for(let i = 0; i < 4; i++){
+  var newZ = z
+  for (let i = 0; i < 4; i++) {
     var cube = new Cube()
     cube.setTransforms(x, y + (2 * scale), newZ)
-    cube.setScale(scale,scale,scale)
+    cube.setScale(scale, scale, scale)
     cube.uniforms.u_color = color
     cube.uniforms.u_colorMult = colorMult
     cube.uniforms.u_texture = texture
 
-    newZ-=(scale * 2);
+    newZ -= (scale * 2);
     objectList.push(cube)
   }
 
   var endCube = new Cube()
   endCube.setTransforms(x, y, newZ + (scale * 2))
-  endCube.setScale(scale,scale,scale)
+  endCube.setScale(scale, scale, scale)
   endCube.uniforms.u_color = color
   endCube.uniforms.u_colorMult = colorMult
   endCube.uniforms.u_texture = texture
   objectList.push(endCube)
-  
+
 
 }
 
@@ -213,8 +213,8 @@ async function main() {
   canvas.width = 600;
   canvas.height = 600;
   utils.setContext(canvas, gl)
-
-  if (isInDebugMode)
+  // debugger
+  if (utils.isDebugEnabled)
     initDatGui();
 
 
@@ -248,7 +248,7 @@ async function main() {
 
   var texture = await TEXTURES.loadTexture(gl, '../../resources/textures/author/fototessera.jpg', gl.CLAMP_TO_EDGE)
 
-  initGate(242, 5.5, -168, 10, [1,1,1,1], [0.95, 0.95, 0.95, 1], texture)
+  initGate(242, 5.5, -168, 10, [1, 1, 1, 1], [0.95, 0.95, 0.95, 1], texture)
 
   setMouseEvents()
   setEventListeners()
@@ -312,11 +312,11 @@ function drawObject(programInfo, ObjectBufferInfo, object) {
 
   // IMPORTANT: the transforms must be used outside the uniforms attribute otherwise they won't update
   webglUtils.setUniforms(programInfo, {
-      u_world: object.Transform,
-      u_color: object.uniforms.u_color,
-      u_colorMult: object.uniforms.u_colorMult,
-      u_texture: object.uniforms.u_texture,  
-    });
+    u_world: object.Transform,
+    u_color: object.uniforms.u_color,
+    u_colorMult: object.uniforms.u_colorMult,
+    u_texture: object.uniforms.u_texture,
+  });
 
   // calls gl.drawArrays or gl.drawElements
   webglUtils.drawBufferInfo(gl, ObjectBufferInfo);
@@ -378,7 +378,7 @@ function render() {
 
   var carTransforms = null
 
-  if(utils.isgGamePadConnected)
+  if (utils.isgGamePadConnected)
     utils.updateJoystickInput()
 
 
@@ -396,7 +396,7 @@ function render() {
     carTransforms = car.getTransformsAsArray()
   }
 
-  if (isInDebugMode) {
+  if (utils.isDebugEnabled) {
     console.log("Car Position " +
       "x: " + carTransforms[0] +
       "y: " + carTransforms[1] +
@@ -432,9 +432,9 @@ function render() {
   gl.bindFramebuffer(gl.FRAMEBUFFER, depthFramebuffer);
   gl.viewport(0, 0, TEXTURES.DEPTURE_TEXTURE_SIZE, TEXTURES.DEPTURE_TEXTURE_SIZE);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+  // debugger
   if(utils.areShadowEnabled){
-    drawScene(
+  drawScene(
     lightProjectionMatrix,
     lightWorldMatrix,
     m4.identity(),
@@ -442,7 +442,7 @@ function render() {
     colorProgramInfo);
 
   }
-  
+
   // now draw scene to the canvas projecting the depth texture into the scene
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -478,8 +478,8 @@ function render() {
 
 
   var cameraPosition = [carTransforms[0] - offsetX, carTransforms[1] + heightCamera, carTransforms[2] - offsetZ];
-
-  if (isInDebugMode) {
+    
+  if (utils.isDebugEnabled) {
     cameraPosition[0] += settings.cameraX
     cameraPosition[1] += settings.cameraY
     cameraPosition[2] += settings.cameraZ

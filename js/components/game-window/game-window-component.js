@@ -33,7 +33,7 @@ class GameWindowComponent extends HTMLElement {
     // https://dev.to/dcodeyt/the-easiest-way-to-detect-device-orientation-in-javascript-7d7
     if (window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 900) {
       // you're in LANDSCAPE mode
-    
+
       this.dispatchEvent(new CustomEvent('not-is-portrait', { bubbles: true }));
     }
     window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
@@ -68,6 +68,9 @@ class GameWindowComponent extends HTMLElement {
     const optionsMenu = document.getElementById("options-menu");
     optionsMenu.classList.toggle("hidden")
 
+    const helpMenu = document.getElementById("help-menu");
+     helpMenu.classList.toggle("hidden")
+
     this.setEventListeners()
     this.manageMobileEvents()
 
@@ -76,7 +79,7 @@ class GameWindowComponent extends HTMLElement {
   }
 
   setEventListeners() {
-    
+
 
     var quickRaceBtn = document.getElementById("quickRaceBtn");
     var optionsBtn = document.getElementById("optionsBtn");
@@ -109,7 +112,11 @@ class GameWindowComponent extends HTMLElement {
   }
 
   onHelpClick() {
-    console.log("HELP")
+    const helpMenu = document.getElementById("help-menu");
+    const mainMenu = document.getElementById("main-menu");
+
+    mainMenu.classList.toggle("hidden")
+    helpMenu.classList.toggle("hidden")
   }
 }
 

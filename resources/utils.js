@@ -6,6 +6,7 @@ class Utils {
     isLandscape = false;
 
     areShadowEnabled = true;
+    isDebugEnabled = false;
     isMusicEnabled = true;
     programInfo = {}
 

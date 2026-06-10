@@ -88,6 +88,7 @@ function setMouseEvents() {
 }
 
 function setEventListeners() {
+  // debugger
   document.addEventListener("keydown", manageKeyDown)
   document.addEventListener("keyup", manageKeyUp)
 }
@@ -102,6 +103,7 @@ function manageKeyUp(event) {
 
 function manageMovement(keyDownEvent, isPressed) {
   if (keyDownEvent.code != undefined && car instanceof LanciaDelta) {
+    // debugger
     switch (keyDownEvent.code) {
       case PlayerControls.MOVE_FORWARD:
         car.isAccellerating = isPressed;
@@ -376,6 +378,9 @@ function render() {
 
   var carTransforms = null
 
+  if(utils.isgGamePadConnected)
+    utils.updateJoystickInput()
+
 
   const facingInrads = utils.degToRad(car.facing)
   const rearDistance = 15
@@ -428,13 +433,16 @@ function render() {
   gl.viewport(0, 0, TEXTURES.DEPTURE_TEXTURE_SIZE, TEXTURES.DEPTURE_TEXTURE_SIZE);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  drawScene(
+  if(utils.areShadowEnabled){
+    drawScene(
     lightProjectionMatrix,
     lightWorldMatrix,
     m4.identity(),
     lightWorldMatrix,
     colorProgramInfo);
 
+  }
+  
   // now draw scene to the canvas projecting the depth texture into the scene
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);

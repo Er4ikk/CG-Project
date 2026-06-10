@@ -33,91 +33,17 @@ class TouchControlsComponent extends HTMLElement {
     var backBtn = document.getElementById("backBtn");
 
 
-    leftBtn.addEventListener("touchstart", this.onLeftTouch)
-    leftBtn.addEventListener("touchend", this.onLeftRelease)
+    leftBtn.addEventListener("touchstart", utils.onLeftTouch)
+    leftBtn.addEventListener("touchend", utils.onLeftRelease)
 
-    rightBtn.addEventListener("touchstart", this.onRightTouch)
-    rightBtn.addEventListener("touchend", this.onRightRelease)
+    rightBtn.addEventListener("touchstart", utils.onRightTouch)
+    rightBtn.addEventListener("touchend", utils.onRightRelease)
 
-    forwardBtn.addEventListener("touchstart", this.onForwardTouch)
-    forwardBtn.addEventListener("touchend", this.onForwardRelease)
+    forwardBtn.addEventListener("touchstart", utils.onForwardTouch)
+    forwardBtn.addEventListener("touchend", utils.onForwardRelease)
 
-    backBtn.addEventListener("touchstart", this.onBackTouch)
-    backBtn.addEventListener("touchend", this.onBackRelease)
-  }
-
-  onLeftTouch() {
-    this.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 'a',
-      code: 'KeyA',
-      bubbles: true,
-      composed: true
-    }));
-    
-  }
-
-  onLeftRelease() {
-    this.dispatchEvent(new KeyboardEvent('keyup', {
-      key: 'a',
-      code: 'KeyA',
-      bubbles: true,
-      composed: true
-    }));
-  }
-
-  onRightTouch() {
-    this.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 'd',
-      code: 'KeyD',
-      bubbles: true,
-      composed: true
-    }));
-  }
-
-  onRightRelease() {
-    this.dispatchEvent(new KeyboardEvent('keyup', {
-      key: 'd',
-      code: 'KeyD',
-      bubbles: true,
-      composed: true
-    }));
-  }
-
-  onForwardTouch(
-  ) {
-    this.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 'w',
-      code: 'KeyW',
-      bubbles: true,
-      composed: true
-    }));
-  }
-
-  onForwardRelease() {
-    this.dispatchEvent(new KeyboardEvent('keyup', {
-      key: 'w',
-      code: 'KeyW',
-      bubbles: true,
-      composed: true
-    }));
-  }
-
-  onBackTouch() {
-    this.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 's',
-      code: 'KeyS',
-      bubbles: true,
-      composed: true
-    }));
-  }
-
-  onBackRelease() {
-    this.dispatchEvent(new KeyboardEvent('keyup', {
-      key: 's',
-      code: 'KeyS',
-      bubbles: true,
-      composed: true
-    }));
+    backBtn.addEventListener("touchstart", utils.onBackTouch)
+    backBtn.addEventListener("touchend", utils.onBackRelease)
   }
 }
 

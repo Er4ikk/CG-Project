@@ -8,6 +8,7 @@
 @media only screen and (max-width: 600px) and (orientation: portrait)  {
     :root {
          --controls-display: flex  !important  ;
+         --content-col: space-between;
     }
 }
 
@@ -16,12 +17,22 @@
 /* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/orientation */
 @media only screen and (max-width: 900px) and  (orientation: landscape) {
     :root {
-        --controls-display: flex !important  ;
+        --controls-display: block !important  ;
+        --position: fixed;
+        --left: 0%;
+        --zIndex: 4;
+        --margin: -75px;
+        --content-col: center
     }
 }
 
 .touch-controls{
     display: var(--controls-display);
+    position: var(--position);
+    left: var(--left);
+    z-index: var(--zIndex);
+    margin-top: var(--margin);
+    /* margin-bottom: var(--marginBottom); */
     width: 100%;
 }
 
@@ -35,14 +46,14 @@
 .left-col{
     display: flex;
     width: 40%;
-    justify-content: space-between;
+    justify-content: var(--content-col);
     flex-direction: row;
 }
 
 .right-col{
     display: flex;
     width: 40%;
-    justify-content: space-between;
+    justify-content: var(--content-col);
     flex-direction: row;
 }
 

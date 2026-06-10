@@ -8,8 +8,6 @@ class GameWindowComponent extends HTMLElement {
 
   htmlDocument = ""
 
-
-
   constructor() {
     super();
 
@@ -33,6 +31,11 @@ class GameWindowComponent extends HTMLElement {
     });
 
     // https://dev.to/dcodeyt/the-easiest-way-to-detect-device-orientation-in-javascript-7d7
+    if (window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 900) {
+      // you're in LANDSCAPE mode
+    
+      this.dispatchEvent(new CustomEvent('not-is-portrait', { bubbles: true }));
+    }
     window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
       const portrait = e.matches;
 
@@ -56,7 +59,7 @@ class GameWindowComponent extends HTMLElement {
 
     this.innerHTML = this.htmlDocument;
     // console.log(this.innerHTML)
-    
+
 
     this.innerHTML += "<style>" + this.cssStyling + "</style>"
 
@@ -73,6 +76,8 @@ class GameWindowComponent extends HTMLElement {
   }
 
   setEventListeners() {
+    
+
     var quickRaceBtn = document.getElementById("quickRaceBtn");
     var optionsBtn = document.getElementById("optionsBtn");
     var helpBtn = document.getElementById("helpBtn");
@@ -82,15 +87,14 @@ class GameWindowComponent extends HTMLElement {
   }
 
   onQuickRaceClick() {
-    console.log("QUICK RACE CLOCKERD")
     const gameView = document.getElementById("canvas")
     const canvasContainer = document.getElementById("canvas-container")
     const wallpaper = document.getElementById("wallpaper")
     gameView.classList.toggle("hidden")
     canvasContainer.classList.toggle("hidden");
     wallpaper.classList.toggle("hidden")
-
-    if(utils.isMobile){
+    // debugger
+    if (utils.isMobile || utils.isLandscape) {
       const touchControls = document.getElementById("touch-controls")
       touchControls.classList.toggle("hidden")
     }

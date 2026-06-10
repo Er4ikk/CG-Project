@@ -5,6 +5,13 @@
     justify-items: center;
   }
 
+  .options-div{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
   .options-label{
     font-family: 'Monocoque';
     font-size: xx-large;

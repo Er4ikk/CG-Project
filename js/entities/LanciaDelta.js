@@ -19,11 +19,12 @@ export class LanciaDelta extends Car {
     velocity = [0, 0, 0]
     accelleration = 0.01;
     reverseSpeed = 0.02;
-    rotatioSpeed = 0.04;
+    rotatioSpeed = 0.3;
     steerReturn = 0.94;
-    frictionZ = 0.99;//<- asphalt https://www.pasquali.org/dispense/Coefficienti%20di%20attrito.pdf
-    frictionY = 1.0;
-    frictionX = 0.99;
+    frictionZ = 0.97;
+    //0.97<- asphalt https://www.pasquali.org/dispense/Coefficienti%20di%20attrito.pdf
+    frictionY = 0.99;
+    frictionX = 0.97;
     facing = -90;
     grip = 0.45;
     rotationAngle = 0;

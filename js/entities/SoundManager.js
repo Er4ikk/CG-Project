@@ -1,6 +1,6 @@
-class SoundManager{
+class SoundManager {
 
-    soundtrack = new Audio("../../../resources/audio/soundtrack.mp3") 
+    soundtrack = new Audio("../../../resources/audio/soundtrack.mp3")
     brake = new Audio("../../../resources/audio/brake.mp3")
     accellerate = new Audio("../../../resources/audio/accellerate.mp3")
 
@@ -11,32 +11,38 @@ class SoundManager{
 
         SoundManager.instance = this;
 
+        this.accellerate.addEventListener('ended', function () {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+
+
         return this;
     }
 
-    playSoundtrack(){
+    playSoundtrack() {
         this.soundtrack.play()
     }
 
-    stopSoundTrack(){
+    stopSoundTrack() {
         this.soundtrack.pause()
     }
 
-    playBrake(){
+    playBrake() {
         this.brake.play();
     }
 
-    stopBrake(){
+    stopBrake() {
         this.brake.pause();
         // https://stackoverflow.com/questions/13002935/html5-audio-start-over
         this.accellerate.currentTime = 0
     }
 
-    playAccellerate(){
+    playAccellerate() {
         this.accellerate.play()
     }
 
-    stopAccellerate(){
+    stopAccellerate() {
         this.accellerate.pause()
         // https://stackoverflow.com/questions/13002935/html5-audio-start-over
         this.accellerate.currentTime = 0

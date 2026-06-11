@@ -7,7 +7,7 @@ class Utils {
 
     areShadowEnabled = true;
     isDebugEnabled = false;
-    isMusicEnabled = true;
+    isMusicEnabled = false;
     programInfo = {}
 
     isgGamePadConnected = false;

@@ -1,4 +1,5 @@
 import { utils } from "../../../resources/utils.js";
+import { soundManager } from "../../entities/SoundManager.js";
 
 class GameWindowComponent extends HTMLElement {
 
@@ -75,7 +76,7 @@ class GameWindowComponent extends HTMLElement {
     this.manageMobileEvents()
 
     this.dispatchEvent(new CustomEvent('game-window-component-loaded', { bubbles: true }));
-
+    
   }
 
   setEventListeners() {
@@ -101,6 +102,11 @@ class GameWindowComponent extends HTMLElement {
       const touchControls = document.getElementById("touch-controls")
       touchControls.classList.toggle("hidden")
     }
+
+     if(utils.isMusicEnabled)
+      soundManager.playSoundtrack();
+    else
+      soundManager.stopSoundTrack();
   }
 
   onOptionsClick() {

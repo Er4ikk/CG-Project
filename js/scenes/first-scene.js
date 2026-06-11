@@ -7,6 +7,7 @@ import { TEXTURES } from "../../resources/textures/textures.js";
 import { LanciaDelta } from "../entities/LanciaDelta.js";
 import { SkyBox } from "../entities/SkyBox.js";
 import { Track } from "../entities/Track.js";
+import { soundManager } from "../entities/SoundManager.js";
 
 var isPressingLeftMouseButton = false;
 
@@ -107,6 +108,11 @@ function manageMovement(keyDownEvent, isPressed) {
     switch (keyDownEvent.code) {
       case PlayerControls.MOVE_FORWARD:
         car.isAccellerating = isPressed;
+
+        if(isPressed)
+          soundManager.playAccellerate()
+        else
+          soundManager.stopAccellerate()
         // car.setTransforms(oldTranforms.x - 1, oldTranforms.y, oldTranforms.z)
         break;
       case PlayerControls.MOVE_BACKWARD:

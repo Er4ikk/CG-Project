@@ -1,6 +1,7 @@
 import { Car } from "./Car.js"
 import { TEXTURES } from "../../resources/textures/textures.js";
 import { utils } from "../../resources/utils.js";
+import { soundManager } from "./SoundManager.js";
 
 export class LanciaDelta extends Car {
     //LANCIA ONLY
@@ -16,20 +17,16 @@ export class LanciaDelta extends Car {
     y = 1
     z = 2
     velocity = [0, 0, 0]
-    accelleration = 0.02;
+    accelleration = 0.01;
     reverseSpeed = 0.02;
     rotatioSpeed = 0.04;
     steerReturn = 0.94;
-    frictionZ = 0.97;//<- asphalt https://www.pasquali.org/dispense/Coefficienti%20di%20attrito.pdf
+    frictionZ = 0.99;//<- asphalt https://www.pasquali.org/dispense/Coefficienti%20di%20attrito.pdf
     frictionY = 1.0;
-    frictionX = 0.97;
+    frictionX = 0.99;
     facing = -90;
     grip = 0.45;
-    mozzoA = 0
-    mozzoP = 0
     rotationAngle = 0;
-    raggioRuotaA = 0.25;
-    raggioRuotaP = 0.30;
 
     //USER CONTROLS
     isAccellerating = false;
@@ -158,7 +155,13 @@ export class LanciaDelta extends Car {
         this.rotationAngle *= this.steerReturn; // ritorno a volante fermo
 
         if (this.isAccellerating) vzm += this.accelleration; // accelerazione in avanti
-        if (this.isDecelerating) vzm -= this.accelleration; // accelerazione indietro
+        if (this.isDecelerating){
+            if(vzm > 0)
+                soundManager.playBrake()
+            else
+                soundManager.stopBrake()
+            vzm -= this.reverseSpeed/10;
+         } // accelerazione indietro
 
         // attriti (semplificando)
         vxm *= this.frictionX;
@@ -175,13 +178,6 @@ export class LanciaDelta extends Car {
 
         // 3. Ruota la matrice SOLO del delta di questo frame!
         this.setRotation(0, deltaFacing, 0);
-
-        // rotazione mozzo ruote (a seconda della velocita' sulla z)
-        var da; //delta angolo
-        da = (180.0 * vzm) / (Math.PI * this.raggioRuotaA);
-        this.mozzoA += da;
-        da = (180.0 * vzm) / (Math.PI * this.raggioRuotaP);
-        this.mozzoP += da;
 
         // ritorno a vel coord mondo
         this.velocity[this.x] = +cosf * vxm + sinf * vzm;

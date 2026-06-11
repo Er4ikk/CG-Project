@@ -1,4 +1,5 @@
 import { utils } from "../../../resources/utils.js";
+import { soundManager } from "../../entities/SoundManager.js";
 
 class OptionsComponent extends HTMLElement {
 

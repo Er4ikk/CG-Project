@@ -20,7 +20,8 @@ class HelpMenuComponent extends HTMLElement {
   }
 
   setEventListeners(){
-     var backBtn = document.getElementById("backBtn");
+    //always use different ids in components
+     var backBtn = document.getElementById("backBt");
 
     if (backBtn != null)
       backBtn.addEventListener("click", this.onBackClick)
